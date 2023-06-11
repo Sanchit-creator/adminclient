@@ -181,7 +181,7 @@ const UserInfo = () => {
                     defaultValue={interviewData.idnumber}
                 />
                 <Img
-                    disabled
+                    component="img"
                     id="outlined-disabled"
                     label="Adhaar Photo One"
                     src={`http://localhost:3000/${interviewData.document}`}
