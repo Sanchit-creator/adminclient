@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { getV } from '../service/api';
+import { useNavigate, useParams } from 'react-router-dom'
+import { getV, getVideos } from '../service/api';
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 
 const Main = styled(Box)`
-  width: 100%;
+  width: 60vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,8 +19,54 @@ const Video = styled('video')({
     width: '1000px',
 })
 
+const MainContainer = styled(Box)`
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+`
+const InputBox = styled(Box)`
+    width: 100%;
+    height: 100px;
+    background-color: #fbfbfb;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #fff;
+    }
+`
+
+const MainBox = styled(Box)`
+    height: 100px;
+    display: flex;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 10px;
+`
+
+const Others = styled(Box)`
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-top: 5vh;
+    height: 100%
+`
+
+const Thumbnail = styled(Box)`
+  height: 80px;
+  width: 150px;
+`
+
+
 
 const VideoPlayer = () => {
+    const [response, setResponse] = useState()
     const { params } = useParams();
     const [interviewData, setInterviewData] = useState();
     useEffect(() => {
@@ -30,7 +76,22 @@ const VideoPlayer = () => {
         })
 
         random();
+    },[params])
+
+    useEffect(() => {
+        const data = () => getVideos().then(function(result) {
+            console.log(result.data);
+            setResponse(result.data);
+        })
+  
+        data();
     },[])
+    
+    const navigate = useNavigate();
+    const handleClick = (e) => {
+        navigate(`/videoplayer/${e._id}`)
+        console.log(e._id);
+      }
 
     if (typeof interviewData === 'undefined') {
         return (
@@ -38,13 +99,27 @@ const VideoPlayer = () => {
         )
     }
   return (
-    <Main>
+    <MainContainer>
+        <Main>
         <Video controls>
             <source src={`http://localhost:3000/${interviewData.path}`} type="video/mp4" />
             Your browser does not support the video tag.
         </Video>
         <Typography>{interviewData.subtitle}</Typography>
     </Main>
+    <Others>
+    {
+        response ? response.map((data, key) => (
+          <MainBox key={data._id}>
+              <InputBox onClick={() => handleClick(data)}>
+                  <Thumbnail component='img' src={`http://localhost:3000/${data.thumbnail}`} />
+                  <Typography>Subtitle: {data.subtitle}</Typography>
+              </InputBox>
+        </MainBox>
+        )) : 'Loading...'
+      }
+    </Others>
+    </MainContainer>
   )
 }
 
