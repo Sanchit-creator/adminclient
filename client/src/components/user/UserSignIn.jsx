@@ -47,6 +47,7 @@ export default function UserSignIn() {
       localStorage.setItem("token", JSON.stringify(response.token))
       localStorage.setItem("verification", JSON.stringify(response.verification))
       localStorage.setItem("id", JSON.stringify(response.id))
+      localStorage.setItem("user", JSON.stringify(response.user))
       if (localStorage.getItem('userInfo')) {
         navigate('/home')
         toast.success('Login Succesfull')
