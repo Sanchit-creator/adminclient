@@ -52,7 +52,6 @@ module.exports.signIn = async (req, res) => {
                     email:req.body.email,
                     password: req.body.password,
                     id: user._id,
-                    user: 'user',
                     verification: user.is_verified,
                     token: generateToken(user._id)
                 })

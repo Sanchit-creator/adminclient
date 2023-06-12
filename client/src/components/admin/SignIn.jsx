@@ -46,7 +46,6 @@ export default function SignIn() {
       console.log(response);
       localStorage.setItem("userInfo", JSON.stringify(response))
       localStorage.setItem("token", JSON.stringify(response.token))
-      localStorage.setItem("user", JSON.stringify(response.user))
       if (localStorage.getItem('userInfo')) {
         navigate('/dashboard')
         toast.success('Login Succesfull')

@@ -33,7 +33,6 @@ module.exports.signIn = async (req, res) => {
                 return res.status(200).json({
                     email:req.body.email,
                     password: req.body.password,
-                    user: 'admin',
                     token: generateToken(admin._id)
                 })
             }else{
