@@ -53,6 +53,7 @@ module.exports.signIn = async (req, res) => {
                     password: req.body.password,
                     id: user._id,
                     verification: user.is_verified,
+                    user: 'user',
                     token: generateToken(user._id)
                 })
             }else{

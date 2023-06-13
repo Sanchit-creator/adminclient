@@ -46,9 +46,10 @@ export default function SignIn() {
       console.log(response);
       localStorage.setItem("userInfo", JSON.stringify(response))
       localStorage.setItem("token", JSON.stringify(response.token))
+      localStorage.setItem("user", JSON.stringify(response.user))
       if (localStorage.getItem('userInfo')) {
         navigate('/dashboard')
-        toast.success('Login Succesfull')
+        toast('Login Succesfull')
       }
       toast('Error while Login')
     } catch (error) {
@@ -82,7 +83,7 @@ export default function SignIn() {
             <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Admin's Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -116,7 +117,6 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <ToastContainer />
             <Grid container>
               <Grid item>
                 <Link href="/admin/signup" variant="body2">

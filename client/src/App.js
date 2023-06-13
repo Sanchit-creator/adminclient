@@ -13,6 +13,7 @@ import Protected from "./components/Protected";
 
 function App() {
   const authenticate = localStorage.getItem('id')
+  const user = localStorage.getItem('user')
   return (
     <div className="App">
       <Router>
@@ -22,11 +23,11 @@ function App() {
           <Route path='/admin/signup' element={authenticate ? <ErrorPage/> : <SignUp />} />
           <Route path="/" element= {authenticate ? <ErrorPage/> : <UserSignIn />} />
           <Route path="/signup" element= {authenticate ? <ErrorPage/> :<UserSignUp />} />
-          <Route path="/dashboard" element={<Protected Component={Home} />} />
-          <Route path="/home" element={<Protected Component={UserHome} />} />
-          <Route path="/userinfo/:params" element={<Protected Component={UserInfo} />} />
+          <Route path="/dashboard" element={user === '"user"' ? <ErrorPage /> : <Protected Component={Home} />} />
+          <Route path="/home" element={user === '"admin"' ? <ErrorPage /> :  <Protected Component={UserHome} />} />
+          <Route path="/userinfo/:params" element={user === '"user"' ? <ErrorPage /> : <Protected Component={UserInfo} />} />
           <Route path="*" element={<ErrorPage />} />
-          <Route path="/videoplayer/:params" element={<Protected Component={VideoPlayer} />} />
+          <Route path="/videoplayer/:params" element={user === '"admin"' ? <ErrorPage /> : <Protected Component={VideoPlayer} />} />
         </Routes>
       </Router>
     </div>

@@ -5,11 +5,11 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Grid, TextField, Typography } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { signInUser } from '../../service/api';
 
 function Copyright(props) {
@@ -47,11 +47,10 @@ export default function UserSignIn() {
       localStorage.setItem("token", JSON.stringify(response.token))
       localStorage.setItem("verification", JSON.stringify(response.verification))
       localStorage.setItem("id", JSON.stringify(response.id))
+      localStorage.setItem("user", JSON.stringify(response.user))
+      toast.success('Login Succesfull')
       if (localStorage.getItem('userInfo')) {
         navigate('/home')
-        toast.success('Login Succesfull')
-      }else{
-        toast.error('Error while Login')
       }
     } catch (error) {
       console.log(error);
@@ -122,6 +121,7 @@ export default function UserSignIn() {
             >
               Sign In
             </Button>
+            <ToastContainer />
             <Grid container>
               <Grid item>
                 <Link href="/signup" variant="body2">
